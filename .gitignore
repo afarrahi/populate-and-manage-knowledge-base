@@ -1,0 +1,9 @@
+config,json
+data/
+logs/
+*.log
+__pycache__/
+*.pyc
+.env
+my_books/
+
