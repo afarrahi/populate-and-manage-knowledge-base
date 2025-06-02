@@ -919,7 +919,9 @@ def wipe_specific_subject_knowledge_base(resolved_subject_dir, instance_id,
 
     # Construct the local tracker file path for the warning message
     tracker_filename = (f"processed_files_"
-                        f"{os.path.relpath(resolved_subject_dir, MAIN_COLLECTION_ROOT).replace(os.sep, '_').replace(':', '')}_" # Adjusted for tracker name consistency with generate_kb_name_from_path
+                        f"{os.path.relpath(resolved_subject_dir, MAIN_COLLECTION_ROOT).
+			    replace(os.sep, '_').replace(':', '')}_" 
+			    # Adjusted for tracker name consistency with generate_kb_name_from_path
                         f"{'recursive' if recursive_mode else 'flat'}.json")
     tracker_filepath = os.path.join(TRACKER_DIR, tracker_filename) # Ensure tracker is in TRACKER_DIR
 
@@ -978,7 +980,15 @@ def wipe_specific_subject_knowledge_base(resolved_subject_dir, instance_id,
 
 # --- Main Execution with Command-Line Argument Parsing ---
 if __name__ == "__main__":
+    custom_usage = """usage: %(prog)s [-h] [--instance INSTANCE] [--force_action]
+                      [--verbose_log]
+                      (--populate_kb | --dry_run | --wipe_all_kbs |
+                       --wipe_subject_kb | --lookup_kb_name | --list_kbs)
+                      [--subject_dir SUBJECT_DIR] [--recursive] [--flat]
+                      [--all_subjects]"""
+
     parser = argparse.ArgumentParser(
+        usage=custom_usage,
         description="""
 This script helps manage Open WebUI Knowledge Bases by automating the
 processing and uploading of documents from your local file system, and
@@ -1024,7 +1034,7 @@ Local Tracking:
   times. This prevents re-uploading unchanged content.
 """,
         formatter_class=argparse.RawTextHelpFormatter # Preserve formatting
-                                                     # for help text
+                                                      # for help text
     )
 
     # Global options
